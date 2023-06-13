@@ -1,0 +1,21 @@
+{
+    "projectId": "648826a88cadbb1a59d5",
+    "projectName": "MizunoHana",
+    "functions": [
+        {
+            "$id": "64884fc42de30486ac95",
+            "name": "arduino-data",
+            "runtime": "node-16.0",
+            "path": "functions/arduino-data",
+            "entrypoint": "src/index.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        }
+    ]
+}

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -13,6 +13,7 @@
     "@tanstack/react-query": "^4.29.12",
     "@tanstack/react-query-devtools": "^4.29.12",
     "appwrite": "^11.0.0",
+    "dayjs": "^1.11.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.3",

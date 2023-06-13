@@ -1,31 +1,33 @@
-import { ID } from "appwrite";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { account } from "../utils/init-appwrite";
+import { ID } from "appwrite";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
-interface LoginFormInput {
+interface SignUpFormInput {
   username: string;
   email: string;
   password: number;
 }
 
-const Login = () => {
+const Signup = () => {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginFormInput>();
+  } = useForm<SignUpFormInput>();
 
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const onSubmit: SubmitHandler<LoginFormInput> = async (data) => {
-    try {
-      const login = await account.createEmailSession(data?.email, data?.password);
 
-      console.log(login);
-      navigate("/app");
+  const { user } = useAuth();
+
+  const onSubmit: SubmitHandler<SignUpFormInput> = async (data) => {
+    try {
+      const signup = await account.create(ID.unique(), data?.email, data?.password, data?.username);
+
+      console.log(signup);
+      navigate("/");
     } catch (error) {
       // @ts-expect-error: appwrite is not intializing
       console.log(error, error?.response?.message);
@@ -37,7 +39,6 @@ const Login = () => {
       navigate("/app");
     }
   }, [user]);
-
   return (
     <main className="w-full flex">
       <div className="relative flex-1 hidden items-center justify-center h-screen bg-gray-900 lg:flex">
@@ -73,24 +74,43 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <div className="absolute inset-0 my-auto bg-[url(https://source.unsplash.com/qhizq_V876M)] brightness-50"></div>
+        <div className="absolute inset-0 my-auto bg-[url(https://source.unsplash.com/sFydXGrt5OA)] brightness-50"></div>
       </div>
       <div className="flex-1 flex items-center justify-center h-screen">
         <div className="w-full max-w-md space-y-8 px-4 bg-white text-gray-600 sm:px-0">
           <div className="">
             <img src="https://floatui.com/logo.svg" width={150} className="lg:hidden" />
             <div className="mt-5 space-y-2">
-              <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Log In</h3>
+              <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Sign Up</h3>
               <p className="">
-                Don't have an account?{" "}
-                <Link to={`/signup`} className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Sign up
+                Already have an account?{" "}
+                <Link to={`/`} className="font-medium text-indigo-600 hover:text-indigo-500">
+                  Log In
                 </Link>
               </p>
             </div>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <div>
+              <label className="font-medium">Username</label>
+              <input
+                {...register("username", { required: true, maxLength: 20 })}
+                type="text"
+                required
+                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
+              {errors.username?.type === "required" && (
+                <p className="mt-2 text-xs text-red-600 ">
+                  <span className="font-medium">Username is required!!</span>
+                </p>
+              )}
+              {errors.username?.type === "maxLength" && (
+                <p className="mt-2 text-xs text-red-600 ">
+                  <span className="font-medium">Username should be under 20 characters</span>
+                </p>
+              )}
+            </div>
             <div>
               <label className="font-medium">Email</label>
               <input
@@ -105,19 +125,17 @@ const Login = () => {
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               />
+              {errors.email?.type === "required" && (
+                <p className="mt-2 text-xs text-red-600 ">
+                  <span className="font-medium">Email is required!!</span>
+                </p>
+              )}
+              {errors.email && (
+                <p className="mt-2 text-xs text-red-600 ">
+                  <span className="font-medium">{errors.email.message}</span>
+                </p>
+              )}
             </div>
-            {errors.email?.type === "required" && (
-              <p className="mt-2 text-xs text-red-600 ">
-                <span className="font-medium">Email is required!!</span>
-              </p>
-            )}
-            {errors.email && (
-              <p className="mt-2 text-xs text-red-600 ">
-                <span className="font-medium">{errors.email.message}</span>
-              </p>
-            )}
-            {/* password */}
-
             <div>
               <label className="font-medium">Password</label>
               <input
@@ -126,22 +144,22 @@ const Login = () => {
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               />
+              {errors.password?.type === "required" && (
+                <p className="mt-2 text-xs text-red-600 ">
+                  <span className="font-medium">Password is required!!</span>
+                </p>
+              )}
+              {errors.password?.type === "minLength" && (
+                <p className="mt-2 text-xs text-red-600 ">
+                  <span className="font-medium">Password should be atleast 8 characters</span>
+                </p>
+              )}
             </div>
-            {errors.password?.type === "required" && (
-              <p className="mt-2 text-xs text-red-600 ">
-                <span className="font-medium">Password is required!!</span>
-              </p>
-            )}
-            {errors.password?.type === "minLength" && (
-              <p className="mt-2 text-xs text-red-600 ">
-                <span className="font-medium">Password should be atleast 8 characters</span>
-              </p>
-            )}
             <button
               type="submit"
               className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
             >
-              Login To Account
+              Create account
             </button>
           </form>
         </div>
@@ -150,4 +168,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
