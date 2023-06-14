@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import Navbar from "../components/lvl0Comp/Navbar";
 import TableResponsive from "../components/lvl0Comp/Table";
 import WeatherCard from "../components/lvl0Comp/WeatherCard";
@@ -6,6 +7,7 @@ import { useData } from "../context/DataContext";
 
 const Dashboard = () => {
   const { isLoading, isSuccess, isError, error, data } = useData();
+  dayjs.extend(localizedFormat);
   console.log(data);
   return (
     <main>
