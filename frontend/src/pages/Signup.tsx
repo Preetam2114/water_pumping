@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { account } from "../utils/init-appwrite";
+// @ts-expect-error It is not taking props don't know why
 import { ID } from "appwrite";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -20,6 +21,7 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
+  // @ts-expect-error It is not taking props don't know why
   const { user } = useAuth();
 
   const onSubmit: SubmitHandler<SignUpFormInput> = async (data) => {
@@ -43,7 +45,7 @@ const Signup = () => {
     <main className="w-full flex">
       <div className="relative flex-1 hidden items-center justify-center h-screen bg-gray-900 lg:flex">
         <div className="relative z-10 w-full max-w-md">
-          <img src="/logo-white.png"  />
+          <img src="/logo-white.png" />
           <div className=" mt-8 space-y-3">
             <h3 className="text-white text-3xl font-bold">Start growing your business quickly</h3>
             <p className="text-gray-300">
@@ -79,7 +81,7 @@ const Signup = () => {
       <div className="flex-1 flex items-center justify-center h-screen">
         <div className="w-full max-w-md space-y-8 px-4 bg-white text-gray-600 sm:px-0">
           <div className="">
-            <img src="/logo2.png"  className="lg:hidden" />
+            <img src="/logo2.png" className="lg:hidden" />
             <div className="mt-5 space-y-2">
               <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Sign Up</h3>
               <p className="">

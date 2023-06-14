@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 const WeatherCard = () => {
   return (
     <>
@@ -10,7 +12,7 @@ const WeatherCard = () => {
                   Laghouat
                 </span>
               </div>
-              <span className="text-lg font-bold ">6:13</span>
+              <span className="text-lg font-bold ">{dayjs(new Date()).format("LT")}</span>
             </div>
           </h2>
 

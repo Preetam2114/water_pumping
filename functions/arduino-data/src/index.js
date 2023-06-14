@@ -18,8 +18,9 @@ module.exports = async function (req, res) {
   console.log("hello world");
   console.log("req is", req);
   console.log(req.payload);
-  const { moisture, pump_status } = JSON.parse(req.payload);
-  console.log(moisture, pump_status);
+  const { moisture, pump_status, water_intake } = JSON.parse(req.payload);
+  console.log(moisture, pump_status, water_intake);
+
   // You can remove services you don't use
   const database = new sdk.Databases(client);
   const functions = new sdk.Functions(client);
@@ -47,7 +48,8 @@ module.exports = async function (req, res) {
     uuidv4(),
     {
       moisture,
-      pump_status
+      pump_status,
+      water_intake
     }
   );
 

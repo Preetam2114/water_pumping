@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+
+// @ts-expect-error It is not taking props don't know why
 import { Query } from "appwrite";
 import { databases } from "../utils/init-appwrite";
+import { PlantDataArray } from "../types/arduinoData";
 
 interface DataContextProps {
-  data: object | undefined;
+  data: PlantDataArray;
   isLoading: boolean;
   isSuccess: boolean;
   error: object;
@@ -33,11 +36,11 @@ export const DataContextProvider: React.FC<{ children: ReactNode }> = ({ childre
     }
   });
 
-  const value = {
+  const value: DataContextProps = {
     isLoading,
     isSuccess,
     isError,
-    error,
+    error: error as object,
     data
   };
 

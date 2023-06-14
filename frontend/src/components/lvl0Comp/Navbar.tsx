@@ -1,14 +1,28 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { account } from "../../utils/init-appwrite";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {
+  // @ts-expect-error It is not taking props don't know why
+  const { refetchAuthState, user } = useAuth();
+  const navigate = useNavigate();
   const [state, setState] = useState(false);
+  async function logout() {
+    try {
+      const res = await account.deleteSession("current");
+      console.log(res);
+      refetchAuthState();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // Replace javascript:void(0) paths with your paths
   const navigation = [
-    { title: "Features", path: "javascript:void(0)" },
-    { title: "Integrations", path: "javascript:void(0)" },
-    { title: "Customers", path: "javascript:void(0)" },
-    { title: "Pricing", path: "javascript:void(0)" }
+    { title: "Features", path: "/app" },
+    { title: "Integrations", path: "/app" }
   ];
 
   return (
@@ -62,21 +76,21 @@ const Navbar: React.FC = () => {
             {navigation.map((item, idx) => {
               return (
                 <li key={idx} className="text-gray-700 hover:text-indigo-600">
-                  <a href={item.path} className="block">
-                    {item.title}
-                  </a>
+                  <Link to={item.path}>
+                    <p className="block">{item.title}</p>
+                  </Link>
                 </li>
               );
             })}
 
             <span className="hidden w-px h-6 bg-gray-300 md:block"></span>
             <div>
-              <a
-                href="javascript:void(0)"
+              <button
+                onClick={() => logout()}
                 className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline"
               >
                 Logout
-              </a>
+              </button>
             </div>
           </ul>
         </div>

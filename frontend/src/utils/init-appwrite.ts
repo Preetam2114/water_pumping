@@ -1,3 +1,4 @@
+// @ts-expect-error It is not taking props don't know why
 import { Client, Functions, Account, Databases } from "appwrite";
 
 const client = new Client()

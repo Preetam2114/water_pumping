@@ -2,20 +2,17 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
 } from "chart.js";
 import dayjs from "dayjs";
-import { Line } from "react-chartjs-2";
-import localizedFormat from "dayjs/plugin/localizedFormat";
+import { Bar } from "react-chartjs-2";
 import { PlantDataArray } from "../../../types/arduinoData";
 
-export default function LineChart({ moistureData }: { moistureData: PlantDataArray }) {
-  dayjs.extend(localizedFormat);
-  ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+const BarChart = ({ moistureData }: { moistureData: PlantDataArray }) => {
+  ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
   const options = {
     responsive: true,
@@ -25,7 +22,7 @@ export default function LineChart({ moistureData }: { moistureData: PlantDataArr
       },
       title: {
         display: true,
-        text: "Soil Moisture"
+        text: "Pump Status"
       }
     }
   };
@@ -37,16 +34,17 @@ export default function LineChart({ moistureData }: { moistureData: PlantDataArr
     labels,
     datasets: [
       {
-        label: "Soil Moisture",
-        data: moistureData?.documents?.map((data) => data.moisture),
-        borderColor: "rgba(92, 241, 6)",
+        label: "Pump Status - 0 OFF, 1 ON",
+        data: moistureData?.documents?.map((data) => (data.pump_status ? 1 : 0)),
         backgroundColor: "rgba(142, 240, 85, 0.8)"
       }
     ]
   };
   return (
-    <section className="mb-12">
-      <Line options={options} data={data} />
-    </section>
+    <div>
+      <Bar options={options} data={data} />
+    </div>
   );
-}
+};
+
+export default BarChart;

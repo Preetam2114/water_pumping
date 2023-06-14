@@ -1,16 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { databases } from "../../utils/init-appwrite";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import { PlantDataArray } from "../../types/arduinoData";
 
-export default function TableResponsive({ data }: { data: object | undefined }) {
+export default function TableResponsive({ data }: { data: PlantDataArray }) {
   dayjs.extend(localizedFormat);
 
   return (
     <>
       {/*<!-- Component: Responsive Table --> */}
       <table
-        className="w-full text-left border border-separate rounded border-emerald-200"
+        className="my-10 w-full text-left border border-separate rounded border-emerald-200"
         cellSpacing="0"
       >
         <tbody>
