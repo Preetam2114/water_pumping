@@ -7,12 +7,23 @@ import { useData } from "../context/DataContext";
 import LineChart from "../components/lvl0Comp/Charts/Line";
 import DoughnutChart from "../components/lvl0Comp/Charts/Doughnut";
 import BarChart from "../components/lvl0Comp/Charts/Bar";
+import { PlantData } from "../types/arduinoData";
 
 const Dashboard = () => {
   // @ts-expect-error It is not taking props don't know why
   const { isLoading, isSuccess, isError, error, data } = useData();
   dayjs.extend(localizedFormat);
-  console.log(data);
+
+  const soilMoistureSum = data?.documents?.reduce((acc: number, curerntValue: PlantData) => {
+    acc += curerntValue.moisture;
+    return acc;
+  }, 0);
+
+  const waterPumpedSum = data?.documents?.reduce((acc: number, curerntValue: PlantData) => {
+    acc += curerntValue.water_intake;
+    return acc;
+  }, 0);
+
   return (
     <main>
       <Navbar />
@@ -24,49 +35,73 @@ const Dashboard = () => {
               {/* table */}
               <div className="flex justify-between w-full">
                 <div className="w-1/2 bg-emerald-100">
-                  <p className=" p-2 text-xl lg:text-2xl font-semibold border-l  text-emerald-700 ">
-                    Moisture Level
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l  text-emerald-700 ">
+                    Soil Moisture Level
                   </p>
                 </div>
                 <div className="w-1/2 border-1 border-emerald-400">
-                  <p className=" p-2  text-xl lg:text-2xl font-semibold border-l border-emerald-200  text-emerald-700 ">
+                  <p className=" p-2  text-sm lg:text-lg font-semibold border-l border-emerald-200  text-emerald-700 ">
                     {data?.documents[0].moisture}
                   </p>
                 </div>
               </div>
               <div className="flex justify-between w-full">
                 <div className="w-1/2 bg-emerald-100">
-                  <p className=" p-2  text-xl lg:text-2xl font-semibold border-l  text-emerald-700 ">
+                  <p className=" p-2  text-sm lg:text-lg font-semibold border-l  text-emerald-700 ">
                     Last Watered
                   </p>
                 </div>
                 <div className="w-1/2 border-1 border-emerald-400">
-                  <p className=" p-2 text-xl lg:text-2xl font-semibold border-l border-emerald-200  text-emerald-700 ">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l border-emerald-200  text-emerald-700 ">
                     {dayjs(data?.documents[0].$createdAt).format("LT")}
                   </p>
                 </div>
               </div>
               <div className="flex justify-between w-full">
                 <div className="w-1/2 bg-emerald-100">
-                  <p className=" p-2 text-xl lg:text-2xl font-semibold border-l  text-emerald-700 ">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l  text-emerald-700 ">
                     Last Watered Date
                   </p>
                 </div>
                 <div className="w-1/2 border-1 border-emerald-400">
-                  <p className=" p-2 text-xl lg:text-2xl font-semibold border-l border-emerald-200  text-emerald-700 ">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l border-emerald-200  text-emerald-700 ">
                     {dayjs(data?.documents[0].$createdAt).format("MMMM DD, YYYY")}
                   </p>
                 </div>
               </div>
               <div className="flex justify-between w-full">
                 <div className="w-1/2 bg-emerald-100">
-                  <p className=" p-2 text-xl lg:text-2xl font-semibold border-l  text-emerald-700 ">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l  text-emerald-700 ">
                     Pump Status
                   </p>
                 </div>
                 <div className="w-1/2 border-1 border-emerald-400">
-                  <p className=" p-2 text-xl lg:text-2xl font-semibold border-l border-emerald-200  text-emerald-700 ">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l border-emerald-200  text-emerald-700 ">
                     {data?.documents[0].pump_status ? "ON" : "OFF"}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-between w-full">
+                <div className="w-1/2 bg-emerald-100">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l  text-emerald-700 ">
+                    Average Soil Moisture
+                  </p>
+                </div>
+                <div className="w-1/2 border-1 border-emerald-400">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l border-emerald-200  text-emerald-700 ">
+                    {soilMoistureSum && data?.total && (soilMoistureSum / 25)?.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-between w-full">
+                <div className="w-1/2 bg-emerald-100">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l  text-emerald-700 ">
+                    Average Water Pumped
+                  </p>
+                </div>
+                <div className="w-1/2 border-1 border-emerald-400">
+                  <p className=" p-2 text-sm lg:text-lg font-semibold border-l border-emerald-200  text-emerald-700 ">
+                    {waterPumpedSum} mL
                   </p>
                 </div>
               </div>

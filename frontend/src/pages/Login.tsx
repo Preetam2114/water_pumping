@@ -44,9 +44,13 @@ const Login = () => {
         <div className="relative z-10 w-full max-w-md">
           <img src="/logo-white.png" />
           <div className=" mt-8 space-y-3">
-            <h3 className="text-white text-3xl font-bold">Start growing your business quickly</h3>
+            <h3 className="text-white text-3xl font-bold">
+              Simplify Plant Care, One Drop at a Time
+            </h3>
             <p className="text-gray-300">
-              Create an account and get access to all features for 30-days, No credit card required.
+              The term "MizunoHana" is a combination of two Japanese words: "Mizuno," meaning water,
+              and "Hana," meaning flower. The name represents the concept of nurturing and caring
+              for plants, which holds great significance in Japanese culture.
             </p>
             <div className="flex items-center -space-x-2 overflow-hidden">
               <img

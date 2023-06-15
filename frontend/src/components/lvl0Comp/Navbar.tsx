@@ -21,8 +21,8 @@ const Navbar: React.FC = () => {
 
   // Replace javascript:void(0) paths with your paths
   const navigation = [
-    { title: "Features", path: "/app" },
-    { title: "Integrations", path: "/app" }
+    { title: "Donate", path: "https://www.buymeacoffee.com/dashboard" },
+    { title: "Contribute", path: "https://github.com/Preetam2114/water_pumping" }
   ];
 
   return (

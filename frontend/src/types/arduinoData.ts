@@ -1,6 +1,7 @@
 export interface PlantData {
   moisture: number;
   pump_status: boolean;
+  water_intake: number;
   $id: string;
   $createdAt: string;
   $updatedAt: string;
