@@ -18,9 +18,9 @@ const char* password = "";
 // Replace with your Appwrite details
 const char* endpoint = "cloud.appwrite.io";
 const int httpsPort = 443;
-const char* project = "648826a88cadbb1a59d5";
-const char* functionId = "64884fc42de30486ac95";
-const char* appwriteKey = "9dfeba777ec0831e2eca697c89d82f4a8e7db61ee2f444e4157f4244d05e1619e8a4b9325fea3336f425dbc75b00ba814f65f3f46120c26e3235c98061cfd4b354396d8eb4ff3fbf88d251719cdb986e716e67597db4ba9cb64be11e427469b05445760cf8e89fd74db3e10003f417d69818d41ba4d632e2f8899dac361634e9";
+const char* project = "";
+const char* functionId = "";
+const char* appwriteKey = "";
 
 BearSSL::WiFiClientSecure client;
 
@@ -29,10 +29,10 @@ unsigned long totalPumpedWater = 0;
 unsigned long pumpedWater = 0;
 unsigned long pumpStartTime = 0;
 const unsigned long dataInterval = 1000; // 1 sec delay for sending data
-const unsigned long maxWaterLimit = 1200; // 1.2 L
+const unsigned long maxWaterLimit = 3000; // 3 L of water
 
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org");
+NTPClient timeClient(ntpUDP, "in.pool.ntp.org", 19800); // Indian NTP server, UTC+5:30
 
 void setup() {
   Serial.begin(115200);
@@ -78,7 +78,7 @@ void loop() {
 
   if (pumpStatus) {
     unsigned long elapsedTime = currentMillis - pumpStartTime;
-    unsigned long pumpedWater = elapsedTime / 1000 * 28; // 28ml per second
+    pumpedWater = elapsedTime / 1000 * 28; // 28ml per second
     totalPumpedWater += pumpedWater;
     pumpStartTime = currentMillis;
     Serial.print("Pumped Water: ");
@@ -86,6 +86,7 @@ void loop() {
     Serial.println("ml");
   } else {
     pumpStartTime = 0;
+    pumpedWater = 0;
   }
 
   if (currentMillis - previousDataTime >= dataInterval) {
